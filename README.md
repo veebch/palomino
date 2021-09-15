@@ -3,7 +3,19 @@
 # Dolphin
 The code for an easy-on-the-eye, kind-to-the-ear music player display, linked to Volumio.
 
-# Prerequisites
+## Prerequisites
 
 - A working Pi with waveshare 6inch HD ePaper attached
 - The Python module for [IT8951](https://github.com/GregDMeyer/IT8951) installed
+
+## Installation 
+
+Clone the repository then install the modules in `requirements.txt` then 
+```
+cd dolphin
+python3 dolphin.py
+```
+## Licence
+
+GPL 3
+ 
