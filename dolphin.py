@@ -11,14 +11,48 @@ import requests
 from io import BytesIO
 from numpy import mean
 import logging
+import gpiozero
+import argparse
+import yaml 
+
 # logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
 # logging.basicConfig()
 
 # get the path of the script
 script_path = os.path.dirname(os.path.abspath( __file__ ))
+configfile = os.path.join(os.path.dirname(os.path.realpath(__file__)),'config.yaml')
 # set script path as current directory
 os.chdir(script_path)
 
+def togglebutton(display):
+    dims = (display.width, display.height)
+    img = Image.new("RGB", (1448, 1072), color = (255, 255, 255) )
+    img.thumbnail(dims)
+    paste_coords = [dims[i] - img.size[i] for i in (0,1)]  # align image with bottom of display
+    logging.info("Reset Pressed, initiate shudown")
+    filename = os.path.join(dirname, 'images/rabbitsq.png')
+    imlogo = Image.open(filename)
+    resize = 300,300
+    imlogo.thumbnail(resize)
+    clear_display(display)
+    img.paste(imlogo,(100, 760))
+    img=img.rotate(180, expand=True)
+    display.frame_buf.paste(img, paste_coords)
+    display.draw_full(constants.DisplayModes.GC16)
+    os.system('sudo halt')
+
+def parse_args():
+    p = argparse.ArgumentParser(description='Test EPD functionality')   
+    p.add_argument('-v', '--virtual', action='store_true',
+                   help='display using a Tkinter window instead of the '
+                        'actual e-paper device (for testing without a '
+                        'physical device)')
+    p.add_argument('-r', '--rotate', default=None, choices=['CW', 'CCW', 'flip'],
+                   help='run the tests with the display rotated by the specified value')
+    p.add_argument('-e', '--error', action='store_true',
+                   help='Brings up the error screen for formatting')
+
+    return p.parse_args()
 
 def on_connect():
     print('connect')
@@ -128,12 +162,6 @@ def on_push_state(*args):
             x3 = 0
         if w3 <= WIDTH:
             x3 = (WIDTH - w3)//2
-            # thin border
-            # shadowcolor = "black"
-            # draw.text((x3-1, 105), args[0]['title'], font=font_l, fill=shadowcolor)
-            # draw.text((x3+1, 105), args[0]['title'], font=font_l, fill=shadowcolor)
-            # draw.text((x3, 105-1), args[0]['title'], font=font_l, fill=shadowcolor)
-            # draw.text((x3, 105+1), args[0]['title'], font=font_l, fill=shadowcolor)y
         draw.text((x3, 105), args[0]['title'], font=font_l, fill=txt_col)  # fill by mean
 
     # volume bar
@@ -172,26 +200,31 @@ socketIO.on('connect', on_connect)
 
 WIDTH = 240
 HEIGHT = 240
-font_s = ImageFont.truetype(script_path + '/fonts/Roboto-Medium.ttf', 20)
-font_m = ImageFont.truetype(script_path + '/fonts/Roboto-Medium.ttf', 24)
-font_l = ImageFont.truetype(script_path + '/fonts/Roboto-Medium.ttf', 30)
+font_s = ImageFont.truetype(script_path + '/fonts/Kanit-ExtraLight.ttf', 20)
+font_m = ImageFont.truetype(script_path + '/fonts/Kanit-ExtraLight.ttf', 24)
+font_l = ImageFont.truetype(script_path + '/fonts/Kanit-ExtraLight.ttf', 30)
 
 # img = Image.new('RGB', (240, 240), color=(0, 0, 0, 25))
 
-play_icons = Image.open('images/controls-play.png').resize((240, 240))
-play_icons_dark = Image.open('images/controls-play-dark.png').resize((240, 240))
-pause_icons = Image.open('images/controls-pause.png').resize((240, 240))
-pause_icons_dark = Image.open('images/controls-pause-dark.png').resize((240, 240))
+play_icons = Image.open('images/play.png').resize((240, 240))
+play_icons_dark = Image.open('images/play.png').resize((240, 240))
+pause_icons = Image.open('images/pause.png').resize((240, 240))
+pause_icons_dark = Image.open('images/pause.png').resize((240, 240))
 
 # Set up the button
 button = gpiozero.Button(17)
 button.when_pressed = lambda: togglebutton(display) # Note missing brackets, it's a label
 img = Image.new("RGB", (1448, 1072), color = (255, 255, 255) )
-display_image_8bpp(display,img, config)
 # draw = ImageDraw.Draw(img, 'RGBA')
 
 
 def main():
+    args = parse_args()
+    with open(configfile) as f:
+        config = yaml.load(f, Loader=yaml.FullLoader)
+    logging.info("Read Config File")
+    logging.info(config)
+    if not args.virtual:
     if not args.virtual:
         from IT8951.display import AutoEPDDisplay
 
@@ -208,7 +241,7 @@ def main():
     else:
         from IT8951.display import VirtualEPDDisplay
         display = VirtualEPDDisplay(dims=(1448, 1072), rotate=args.rotate)
-
+    display_image_8bpp(display,img, config)
     while True:
         print ('Main looping')
         # connecting to socket
