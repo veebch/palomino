@@ -204,5 +204,5 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             img = Image.new('RGB', (1448, 1072), color=(255, 255, 255))
             img.paste(rabbit_icon,(100,760), rabbit_icon)
-            display_image_8bpp(display,img, config)
+            display_image_8bpp(display,img)
             pass
