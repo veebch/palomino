@@ -14,7 +14,7 @@ import textwrap
 
 def _place_text(img, text, x_offset=0, y_offset=0,fontsize=40,fontstring="Kanit-ExtraLight", fill=0):
     '''
-    Put some centered text at a location on the image.
+    Put some horizontally centered text at a y location on the image.
     '''
 
     draw = ImageDraw.Draw(img)
@@ -36,6 +36,9 @@ def _place_text(img, text, x_offset=0, y_offset=0,fontsize=40,fontstring="Kanit-
     return 
 
 def writewrappedlines(img,text,fontsize,y_text=0,height=3, width=15,fontstring="Kanit-ExtraLight"):
+    '''
+    Split over lines if the text is long
+    '''
     lines = textwrap.wrap(text, width)
     numoflines=0
     for line in lines:
@@ -46,6 +49,9 @@ def writewrappedlines(img,text,fontsize,y_text=0,height=3, width=15,fontstring="
 
 
 def togglebutton(display):
+    '''
+    The button on the Waveshare device, turned into a graceful power down
+    '''
     dims = (display.width, display.height)
     img = Image.new("RGB", (1448, 1072), color = (255, 255, 255) )
     img.thumbnail(dims)
@@ -57,7 +63,7 @@ def togglebutton(display):
     img=img.rotate(180, expand=True)
     display.frame_buf.paste(img, paste_coords)
     display.draw_full(constants.DisplayModes.GC16)
-    #os.system('sudo systemctl stop btcticker-start.service')
+    os.system('sudo halt')
 
 
 def parse_args():
@@ -94,92 +100,70 @@ def on_push_state(*args):
     # artist, album, title
     # Volume crosses mute threshold
     print(args[0]['status'])
-    wasmuted = bool(lastpass['volume']<10)
-    ismuted = bool(args[0]['volume']<10)
+    wasmuted = bool(lastpass['volume']<mutethresh)
+    ismuted = bool(args[0]['volume']<mutethresh)
     if  (args[0]['title']!=lastpass['title'] and args[0]['status']!='stop') or \
         wasmuted!=ismuted or \
         (args[0]['status']!=lastpass['status'] and args[0]['status']!='stop'):
         lastpass = args[0]
-        img = Image.new('RGBA', (WIDTH, HEIGHT), color=(255, 255 , 255, 0))
+        img = Image.new('RGBA', (display.width, display.height), color=(255, 255 , 255, 0))
 
         # Load cover
         albumart = args[0]['albumart'].encode('ascii', 'ignore')
 
         if len(albumart) == 0:  # to catch a empty field on start
-            albumart = 'http://boombox.local:3000/albumart'
-        # make this conditional if needed
-        albumart = 'http://boombox.local:3000'+args[0]['albumart']
-
+            albumart = 'http://'+servername+':3000/albumart'
+        # Make the album art link into a url & get it & paste it in
+        albumart = 'http://'+servername+':3000'+args[0]['albumart']
         response = requests.get(albumart)
         imgart = Image.open(BytesIO(response.content))    
         imgart = ImageOps.posterize(imgart, 4)
-        imgart = imgart.resize((400, 400))
+        imgart = imgart.resize((coversize, coversize))
         imgart = imgart.convert("RGBA")
-        img.paste(imgart, (524,220))
+        img.paste(imgart, (int((display.width - coversize)/2),220))
 
-        txt_col = (55, 55, 55)
-        bar_col = (100,100,100) 
-        indent = 180
         if args[0]['status'] in ['pause', 'stop'] :
             img.paste(pause_icons, (indent, 300), pause_icons)
 
         draw = ImageDraw.Draw(img, 'RGBA')
-        fontsize = 100
+        fontsize = 80
         y_text = -430
         height = 80
-        width = 25
-        fontstring = 'Raleway-Light' 
+        width = 25 
         if 'artist' in args[0]:
-            #draw.text((indent, 150), args[0]['artist'], font=font_m, fill=txt_col)
             img, numline=writewrappedlines(img,args[0]['artist'],fontsize,y_text,height, width,fontstring)
-        y_text = 130
-        fontsize = 75
+        y_text = 180
+        height = 50
+        fontsize = 50
         if 'album' in args[0]:
-            #draw.text((indent,250),args[0]['album'], font=font_m, fill=txt_col)
             img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
-        y_text = 330
+        y_text = 300
         fontsize = 120
-        height = 100
+        height = 120
         width = 18
         if 'title' in args[0]:
-            #draw.text((indent, 800), args[0]['title'], font=font_l, fill=txt_col)
-            img, numline=writewrappedlines(img,args[0]['title'],fontsize,y_text,height, width,fontstring)
+            if len(args[0]['title'])>35:
+                titletext= args[0]['title'][:30]+'...'
+            else:
+                titletext=args[0]['title']
+            img, numline=writewrappedlines(img,titletext,fontsize,y_text,height, width,fontstring)
 
         vol_x = int(float(args[0]['volume']))
-        if vol_x <= 10: 
+        if vol_x <= mutethresh: 
             logging.info('muted')
-            img.paste(mute_icons, (1020, 300),mute_icons)
+            img.paste(mute_icons, (iconheight , 300),mute_icons)
         display_image_8bpp(display,img)
     return
 
 # get the path of the script
+
 script_path = os.path.dirname(os.path.abspath( __file__ ))
 dirname = os.path.dirname(__file__)
 configfile = os.path.join(os.path.dirname(os.path.realpath(__file__)),'config.yaml')
 # set script path as current directory
 os.chdir(script_path)
 
-socketIO = SocketIO('boombox.local', 3000)
-socketIO.on('connect', on_connect)
-lastpass = {
-  "artist": "none",
-  "title": "none",
-  "album": "none",
-  "albumart": "none",
-  "status": "none",
-  "volume": 9
-}
-
-#Initialise display
-
-WIDTH = 1448
-HEIGHT = 1072 
-
-rabbit_icon = Image.open('images/rabbitsq.png').resize((300, 300)).convert("RGBA")
-pause_icons = Image.open('images/pause.png').resize((240, 240)).convert("RGBA")
-mute_icons = Image.open('images/mute.png').resize((240, 240)).convert("RGBA")
-
-img = Image.new("RGB", (1448, 1072), color = (255, 255, 255) )
+# Read config and Initialise display
 args = parse_args()
 with open(configfile) as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
@@ -199,9 +183,37 @@ if not args.virtual:
 else:
     from IT8951.display import VirtualEPDDisplay
     display = VirtualEPDDisplay(dims=(1448, 1072), rotate=args.rotate)
+
 # Set up the button
+
 button = gpiozero.Button(17)
 button.when_pressed = lambda: togglebutton(display) # Note missing brackets, it's a label
+
+# Initialise some constants
+
+rabbit_icon = Image.open('images/rabbitsq.png').resize((300, 300)).convert("RGBA")
+pause_icons = Image.open('images/pause.png').resize((240, 240)).convert("RGBA")
+mute_icons = Image.open('images/mute.png').resize((240, 240)).convert("RGBA")
+
+coversize = config['display']['coversize']
+mutethresh = config['sound']['mutethresh']
+indent = config['display']['indent']
+servername = config['server']['name']
+fontstring = config['display']['font']
+
+# Derive some constants
+
+iconheight = display.width-240-indent
+socketIO = SocketIO(servername, 3000)
+socketIO.on('connect', on_connect)
+lastpass = {
+  "artist": "none",
+  "title": "none",
+  "album": "none",
+  "albumart": "none",
+  "status": "none",
+  "volume": 60
+}
 
 
 def main():
@@ -220,7 +232,7 @@ if __name__ == '__main__':
             main()
         except KeyboardInterrupt:
             socketIO.disconnect()
-            img = Image.new('RGB', (1448, 1072), color=(255, 255, 255))
+            img = Image.new('RGBA', (1448, 1072), color=(255, 255, 255,0))
             img.paste(rabbit_icon,(100,760), rabbit_icon)
             display_image_8bpp(display,img)
             pass
