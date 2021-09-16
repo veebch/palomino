@@ -13,6 +13,7 @@ The code for an easy-on-the-eye, kind-to-the-ear music player display - all the 
 Clone the repository then install the modules in `requirements.txt` then 
 ```
 cd dolphin
+cp config_example.yaml config.yaml
 python3 dolphin.py
 ```
 ## Licence
