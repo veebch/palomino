@@ -5,7 +5,7 @@ The code for an easy-on-the-eye, kind-to-the-ear music player display - all the 
 
 ## Hardware
 Volumio is running on a Pi4 on the same LAN as the viewer.
-The viewer is running one [of these](https://www.veeb.ch/store/p/tickerxl), which is essentially a Raspberry Pi Zero WH and an EPD in a custom frame.
+The viewer is running one [of these](https://www.veeb.ch/store/p/tickerxl), which is essentially a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
 
 ## Prerequisites
 
