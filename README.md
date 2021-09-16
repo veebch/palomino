@@ -23,7 +23,6 @@ git clone git@github.com:llvllch/dolphin.git
 then install the required modules using `python3 -m pip install -r requirements.txt` then 
 move to the directory and copy the example config file and tailor to your needs:
 ```
-cd dolphin
 cp config_example.yaml config.yaml
 ```
 Then you can run using
