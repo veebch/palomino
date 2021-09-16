@@ -16,7 +16,7 @@ move to the directory and copy the example config file and tailor to your needs:
 cd dolphin
 cp config_example.yaml config.yaml
 ```
-Then run using
+Then you can run using
 ```
 python3 dolphin.py
 ```
