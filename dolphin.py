@@ -39,7 +39,8 @@ def togglebutton(display):
     img=img.rotate(180, expand=True)
     display.frame_buf.paste(img, paste_coords)
     display.draw_full(constants.DisplayModes.GC16)
-    os.system('sudo halt')
+    os.system('sudo systemctl stop btcticker-start.service')
+
 
 def parse_args():
     p = argparse.ArgumentParser(description='Test EPD functionality')   
