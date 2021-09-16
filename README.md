@@ -14,7 +14,7 @@ The viewer is running one [of these](https://www.veeb.ch/store/p/tickerxl), whic
 
 ## Installation 
 
-Clone the repository 
+From your home directory, clone the repository 
 
 ```
 git clone git@github.com:llvllch/dolphin.git
