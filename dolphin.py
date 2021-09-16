@@ -1,7 +1,6 @@
 
 import time
-from colorsys import hsv_to_rgb
-from PIL import ImageFont, Image, ImageDraw
+from PIL import ImageFont, Image, ImageDraw, ImageOps
 import os
 from IT8951 import constants
 from socketIO_client import SocketIO, LoggingNamespace
@@ -12,15 +11,6 @@ import gpiozero
 import argparse
 import yaml 
 import textwrap
-
-
-# get the path of the script
-script_path = os.path.dirname(os.path.abspath( __file__ ))
-dirname = os.path.dirname(__file__)
-configfile = os.path.join(os.path.dirname(os.path.realpath(__file__)),'config.yaml')
-# set script path as current directory
-os.chdir(script_path)
-
 
 def _place_text(img, text, x_offset=0, y_offset=0,fontsize=40,fontstring="Kanit-ExtraLight", fill=0):
     '''
@@ -84,7 +74,7 @@ def parse_args():
     return p.parse_args()
 
 def on_connect():
-    print('connect')
+    logging.info('connect')
     return 'connected'
 
 def display_image_8bpp(display, img):
@@ -97,61 +87,88 @@ def display_image_8bpp(display, img):
     return
 
 def on_push_state(*args):
-    img = Image.new('RGBA', (WIDTH, HEIGHT), color=(255, 255 , 255, 0))
-    status = args[0]['status'].encode('ascii', 'ignore')
+    global lastpass
+    # Only run screen update if the key arguments have changed since the last call. Key arguments are:
+    # status
+    # albumart
+    # artist, album, title
+    # Volume crosses mute threshold
+    print(args[0]['status'])
+    wasmuted = bool(lastpass['volume']<10)
+    ismuted = bool(args[0]['volume']<10)
+    if  (args[0]['title']!=lastpass['title'] and args[0]['status']!='stop') or \
+        wasmuted!=ismuted or \
+        (args[0]['status']!=lastpass['status'] and args[0]['status']!='stop'):
+        lastpass = args[0]
+        img = Image.new('RGBA', (WIDTH, HEIGHT), color=(255, 255 , 255, 0))
 
-    # Load albumcover or radio cover
-    albumart = args[0]['albumart'].encode('ascii', 'ignore')
+        # Load cover
+        albumart = args[0]['albumart'].encode('ascii', 'ignore')
 
-    if len(albumart) == 0:  # to catch a empty field on start
-        albumart = 'http://boombox.local:3000/albumart'
-    # make this conditional
-    albumart = 'http://boombox.local:3000'+args[0]['albumart']
+        if len(albumart) == 0:  # to catch a empty field on start
+            albumart = 'http://boombox.local:3000/albumart'
+        # make this conditional if needed
+        albumart = 'http://boombox.local:3000'+args[0]['albumart']
 
-    # print 'Albumart2:',albumart
-    response = requests.get(albumart)
-    imgart = Image.open(BytesIO(response.content))
-    imgart = imgart.convert("RGBA")
-    imgart = imgart.resize((400, 400))
-    img.paste(imgart, (524,300))
+        response = requests.get(albumart)
+        imgart = Image.open(BytesIO(response.content))    
+        imgart = ImageOps.posterize(imgart, 4)
+        imgart = imgart.resize((400, 400))
+        imgart = imgart.convert("RGBA")
+        img.paste(imgart, (524,220))
 
-    txt_col = (55, 55, 55)
-    bar_col = (100,100,100) 
+        txt_col = (55, 55, 55)
+        bar_col = (100,100,100) 
+        indent = 180
+        if args[0]['status'] in ['pause', 'stop'] :
+            img.paste(pause_icons, (indent, 300), pause_icons)
 
-    print(status)
-    indent = 180
-    if status == b'pause':
-        img.paste(pause_icons, (indent, 300), pause_icons)
+        draw = ImageDraw.Draw(img, 'RGBA')
+        fontsize = 100
+        y_text = -430
+        height = 80
+        width = 25
+        fontstring = 'Raleway-Light' 
+        if 'artist' in args[0]:
+            #draw.text((indent, 150), args[0]['artist'], font=font_m, fill=txt_col)
+            img, numline=writewrappedlines(img,args[0]['artist'],fontsize,y_text,height, width,fontstring)
+        y_text = 130
+        fontsize = 75
+        if 'album' in args[0]:
+            #draw.text((indent,250),args[0]['album'], font=font_m, fill=txt_col)
+            img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
+        y_text = 330
+        fontsize = 120
+        height = 100
+        width = 18
+        if 'title' in args[0]:
+            #draw.text((indent, 800), args[0]['title'], font=font_l, fill=txt_col)
+            img, numline=writewrappedlines(img,args[0]['title'],fontsize,y_text,height, width,fontstring)
 
-    draw = ImageDraw.Draw(img, 'RGBA')
-    fontsize = 100
-    y_text = -400
-    height = 50
-    width = 25
-    fontstring = 'Kanit-ExtraLight' 
-    if 'artist' in args[0]:
-        #draw.text((indent, 150), args[0]['artist'], font=font_m, fill=txt_col)
-        img, numline=writewrappedlines(img,args[0]['artist'],fontsize,y_text,height, width,fontstring)
-    y_text = 200
-    fontsize = 75
-    if 'album' in args[0]:
-        #draw.text((indent,250),args[0]['album'], font=font_m, fill=txt_col)
-        img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
-    y_text = 330
-    fontsize = 120
-    if 'title' in args[0]:
-        #draw.text((indent, 800), args[0]['title'], font=font_l, fill=txt_col)
-        img, numline=writewrappedlines(img,args[0]['title'],fontsize,y_text,height, width,fontstring)
+        vol_x = int(float(args[0]['volume']))
+        if vol_x <= 10: 
+            logging.info('muted')
+            img.paste(mute_icons, (1020, 300),mute_icons)
+        display_image_8bpp(display,img)
+    return
 
-    vol_x = int(float(args[0]['volume']))
-    if vol_x <= 10: 
-        logging.info('muted')
-        img.paste(mute_icons, (1020, 300),mute_icons)
-    display_image_8bpp(display,img)
-
+# get the path of the script
+script_path = os.path.dirname(os.path.abspath( __file__ ))
+dirname = os.path.dirname(__file__)
+configfile = os.path.join(os.path.dirname(os.path.realpath(__file__)),'config.yaml')
+# set script path as current directory
+os.chdir(script_path)
 
 socketIO = SocketIO('boombox.local', 3000)
 socketIO.on('connect', on_connect)
+lastpass = {
+  "artist": "none",
+  "title": "none",
+  "album": "none",
+  "albumart": "none",
+  "status": "none",
+  "volume": 9
+}
 
 #Initialise display
 
@@ -202,6 +219,7 @@ if __name__ == '__main__':
         try:
             main()
         except KeyboardInterrupt:
+            socketIO.disconnect()
             img = Image.new('RGB', (1448, 1072), color=(255, 255, 255))
             img.paste(rabbit_icon,(100,760), rabbit_icon)
             display_image_8bpp(display,img)
