@@ -172,7 +172,7 @@ if not args.virtual:
     # value means faster display refreshes. the documentation for the IT8951 device
     # says the max is 24 MHz (24000000), but my device seems to still work as high as
     # 80 MHz (80000000)
-    display = AutoEPDDisplay(vcom=config['display']['vcom'], rotate=args.rotate, spi_hz=24000000)
+    display = AutoEPDDisplay(vcom=config['display']['vcom'], rotate=args.rotate, spi_hz=60000000)
 
     #logging.info('VCOM set to', str(display.epd.get_vcom()))
 
