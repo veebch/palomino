@@ -18,6 +18,7 @@ From your home directory, clone the repository
 
 ```
 git clone git@github.com:llvllch/dolphin.git
+cd dolphin
 ```
 
 then install the required modules using `python3 -m pip install -r requirements.txt` then 
