@@ -10,13 +10,45 @@ The code for an easy-on-the-eye, kind-to-the-ear music player display - all the 
 
 ## Installation 
 
-Clone the repository then install the modules in `requirements.txt` then 
+Clone the repository then install the required modules using `python3 -m pip install -r requirements.txt` then 
+move to the directory and copy the example config file and tailor to your needs:
 ```
 cd dolphin
 cp config_example.yaml config.yaml
+```
+Then run using
+```
 python3 dolphin.py
+```
+
+## Add Autostart
+
+```
+cat <<EOF | sudo tee /etc/systemd/system/dolphin.service
+[Unit]
+Description=dolphin
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 -u /home/pi/dolphin/dolphin.py
+WorkingDirectory=/home/pi/dolphin/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+Now, simply enable the service you just made and reboot
+```  
+sudo systemctl enable dolphin.service
+sudo systemctl start dolphin.service
+
+sudo reboot
 ```
 ## Licence
 
-GPL 3
+GNU GENERAL PUBLIC LICENSE Version 3.0
  
