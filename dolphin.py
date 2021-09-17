@@ -65,6 +65,9 @@ def togglebutton(display):
     display.draw_full(constants.DisplayModes.GC16)
     os.system('sudo halt')
 
+def clear_display(display):
+    logging.info('Clearing display...')
+    display.clear()
 
 def parse_args():
     p = argparse.ArgumentParser(description='Test EPD functionality')   
