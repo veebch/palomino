@@ -118,10 +118,13 @@ def on_push_state(*args):
             albumart = 'http://'+servername+':3000/albumart'
         # Make the album art link into a url & get it & paste it in
         albumart = 'http://'+servername+':3000'+args[0]['albumart']
-        response = requests.get(albumart)
-        imgart = Image.open(BytesIO(response.content))
-        imgart = imgart.resize((coversize, coversize))
-        imgart = imgart.convert("RGBA")
+        try:
+            response = requests.get(albumart)
+            imgart = Image.open(BytesIO(response.content))
+            imgart = imgart.resize((coversize, coversize))
+            imgart = imgart.convert("RGBA")
+        except:
+            imgart = Image.new('RGBA', (coversize, coversize), color=(255, 255, 255,0))
         img.paste(imgart, (int((display.width - coversize)/2),220))
 
         if args[0]['status'] in ['pause', 'stop'] :
