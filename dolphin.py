@@ -116,7 +116,8 @@ def on_push_state(*args):
         # Make the album art link into a url & get it & paste it in
         albumart = 'http://'+servername+':3000'+args[0]['albumart']
         response = requests.get(albumart)
-        imgart = Image.open(BytesIO(response.content))    
+        imgart = Image.open(BytesIO(response.content))
+        imgart = imgart.convert("RGB")
         imgart = ImageOps.posterize(imgart, 4)
         imgart = imgart.resize((coversize, coversize))
         imgart = imgart.convert("RGBA")
