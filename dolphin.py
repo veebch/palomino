@@ -140,9 +140,10 @@ def on_push_state(*args):
         y_text = 160
         height = 50
         fontsize = 50
+        width = 30
         if 'album' in args[0]:
-            if len(args[0]['title'])>25:
-                titletext= args[0]['album'][:20]+'...'
+            if len(args[0]['album'])>30:
+                titletext= args[0]['album'][:27]+'...'
             else:
                 titletext=args[0]['album']
             img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
