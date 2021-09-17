@@ -117,8 +117,6 @@ def on_push_state(*args):
         albumart = 'http://'+servername+':3000'+args[0]['albumart']
         response = requests.get(albumart)
         imgart = Image.open(BytesIO(response.content))
-        imgart = imgart.convert("RGB")
-        imgart = ImageOps.posterize(imgart, 4)
         imgart = imgart.resize((coversize, coversize))
         imgart = imgart.convert("RGBA")
         img.paste(imgart, (int((display.width - coversize)/2),220))
@@ -128,17 +126,17 @@ def on_push_state(*args):
 
         draw = ImageDraw.Draw(img, 'RGBA')
         fontsize = 80
-        y_text = -430
+        y_text = -450
         height = 80
         width = 25 
         if 'artist' in args[0]:
             img, numline=writewrappedlines(img,args[0]['artist'],fontsize,y_text,height, width,fontstring)
-        y_text = 180
+        y_text = 160
         height = 50
         fontsize = 50
         if 'album' in args[0]:
             img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
-        y_text = 300
+        y_text = 280
         fontsize = 120
         height = 120
         width = 18
