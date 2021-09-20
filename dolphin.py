@@ -102,7 +102,7 @@ def on_push_state(*args):
     # albumart
     # artist, album, title
     # Volume crosses mute threshold
-    print(args[0]['status'])
+    print(args[0])
     wasmuted = bool(lastpass['volume']<mutethresh)
     ismuted = bool(args[0]['volume']<mutethresh)
     if  (args[0]['title']!=lastpass['title'] and args[0]['status']!='stop') or \
@@ -147,7 +147,11 @@ def on_push_state(*args):
             else:
                 titletext=args[0]['album']
             img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
-        y_text = 280
+        if 'stream' in args[0] and 'samplerate' in args[0] and 'samplerate' in args[0]:
+            y_text = 210
+            fontsize = 40
+            img, numline=writewrappedlines(img,args[0]['stream']+', '+args[0]['samplerate']+', '+args[0]['bitdepth'],fontsize,y_text,height, width,fontstring)
+        y_text = 290
         fontsize = 120
         height = 120
         width = 18
@@ -159,6 +163,8 @@ def on_push_state(*args):
             img, numline=writewrappedlines(img,titletext,fontsize,y_text,height, width,fontstring)
 
         vol_x = int(float(args[0]['volume']))
+
+
         if vol_x <= mutethresh: 
             logging.info('muted')
             img.paste(mute_icons, (iconheight , 300),mute_icons)
