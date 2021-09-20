@@ -140,17 +140,17 @@ def on_push_state(*args):
         y_text = 160
         height = 50
         fontsize = 50
-        width = 30
+        width = 35
         if 'album' in args[0]:
             if len(args[0]['album'])>30:
                 titletext= args[0]['album'][:27]+'...'
             else:
                 titletext=args[0]['album']
             img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
-        if 'stream' in args[0] and 'samplerate' in args[0] and 'samplerate' in args[0]:
+        if 'stream' in args[0] and 'samplerate' in args[0] and 'bitdepth' in args[0]:
             y_text = 210
             fontsize = 40
-            img, numline=writewrappedlines(img,args[0]['stream']+', '+args[0]['samplerate']+', '+args[0]['bitdepth'],fontsize,y_text,height, width,fontstring)
+            img, numline=writewrappedlines(img,str(args[0]['stream'])+', '+str(args[0]['samplerate'])+', '+str(args[0]['bitdepth']),fontsize,y_text,height, width,fontstring)
         y_text = 290
         fontsize = 120
         height = 120
