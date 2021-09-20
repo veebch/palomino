@@ -159,7 +159,7 @@ def on_push_state(*args):
         y_text = 290
         fontsize = 120
         height = 120
-        width = 18
+        width = 20
         if 'title' in args[0]:
             titletext= smart_truncate(args[0]['title'],length=30)
             img, numline=writewrappedlines(img,titletext,fontsize,y_text,height, width,fontstring)
