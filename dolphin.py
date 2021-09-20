@@ -105,9 +105,10 @@ def on_push_state(*args):
     print(args[0])
     wasmuted = bool(lastpass['volume']<mutethresh)
     ismuted = bool(args[0]['volume']<mutethresh)
-    if  (args[0]['title']!=lastpass['title'] and args[0]['status']!='stop') or \
+    if  ((args[0]['title']!=lastpass['title'] and args[0]['status']!='stop') or \
         wasmuted!=ismuted or \
-        (args[0]['status']!=lastpass['status'] and args[0]['status']!='stop'):
+        (args[0]['status']!=lastpass['status'] and args[0]['status']!='stop')) and \
+        'stream' in args[0] and 'samplerate' in args[0] and 'bitdepth' in args[0]:
         lastpass = args[0]
         img = Image.new('RGBA', (display.width, display.height), color=(255, 255 , 255, 0))
 
@@ -147,10 +148,10 @@ def on_push_state(*args):
             else:
                 titletext=args[0]['album']
             img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
-        if 'stream' in args[0] and 'samplerate' in args[0] and 'bitdepth' in args[0]:
-            y_text = 210
-            fontsize = 40
-            img, numline=writewrappedlines(img,str(args[0]['stream'])+', '+str(args[0]['samplerate'])+', '+str(args[0]['bitdepth']),fontsize,y_text,height, width,fontstring)
+        
+        y_text = 210
+        fontsize = 40
+        img, numline=writewrappedlines(img,str(args[0]['stream'])+', '+str(args[0]['samplerate'])+', '+str(args[0]['bitdepth']),fontsize,y_text,height, width,fontstring)
         y_text = 290
         fontsize = 120
         height = 120
