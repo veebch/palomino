@@ -140,12 +140,9 @@ def on_push_state(*args):
         y_text = 160
         height = 50
         fontsize = 50
-        width = 35
+        width = 40
         if 'album' in args[0]:
-            if len(args[0]['album'])>30:
-                titletext= args[0]['album'][:27]+'...'
-            else:
-                titletext=args[0]['album']
+            titletext= smart_truncate(args[0]['album'], length=27)
             img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
         
         if 'stream' in args[0]:
@@ -164,10 +161,7 @@ def on_push_state(*args):
         height = 120
         width = 18
         if 'title' in args[0]:
-            if len(args[0]['title'])>35:
-                titletext= args[0]['title'][:30]+'...'
-            else:
-                titletext=args[0]['title']
+            titletext= smart_truncate(args[0]['title'],length=30)
             img, numline=writewrappedlines(img,titletext,fontsize,y_text,height, width,fontstring)
 
         vol_x = int(float(args[0]['volume']))
@@ -178,6 +172,12 @@ def on_push_state(*args):
             img.paste(mute_icons, (iconheight , 300),mute_icons)
         display_image_8bpp(display,img)
     return
+
+def smart_truncate(content, length=100, suffix='...'):
+    if len(content) <= length:
+        return content
+    else:
+        return ' '.join(content[:length+1].split(' ')[0:-1]) + suffix
 
 # get the path of the script
 
