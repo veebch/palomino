@@ -106,9 +106,8 @@ def on_push_state(*args):
     wasmuted = bool(lastpass['volume']<mutethresh)
     ismuted = bool(args[0]['volume']<mutethresh)
     techstring = False
-    if  ((args[0]['title']!=lastpass['title'] and args[0]['status']!='stop') or \
-        wasmuted!=ismuted or \
-        (args[0]['status']!=lastpass['status'] and args[0]['status']!='stop')) :
+    if  ((args[0]['title']!=lastpass['title'] or (args[0]['status']!=lastpass['status'])) and args[0]['status']!='stop') or \
+        wasmuted!=ismuted:
         lastpass = args[0]
         img = Image.new('RGBA', (display.width, display.height), color=(255, 255 , 255, 0))
 
