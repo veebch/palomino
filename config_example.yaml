@@ -4,7 +4,5 @@ display:
   coversize: 450
   indent: 180
   font: Raleway-Light
-sound:
-  mutethresh: 10
 server:
   name: boombox.local
