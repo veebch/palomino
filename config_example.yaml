@@ -3,6 +3,6 @@ display:
   inverted: false
   coversize: 450
   indent: 180
-  font: Raleway-Light
+  font: MavenPro-Regular
 server:
   name: boombox.local
