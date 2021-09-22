@@ -167,7 +167,7 @@ def on_push_state(*args):
         height = 120
         width = 20
         if 'title' in args[0] and args[0]['title'] is not None:
-            titletext= smart_truncate(args[0]['title'],length=30)
+            titletext= smart_truncate(args[0]['title'],length=33)
             img, numline=writewrappedlines(img,titletext,fontsize,y_text,height, width,fontstring)
 
         vol_x = int(float(args[0]['volume']))
