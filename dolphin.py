@@ -117,7 +117,10 @@ def on_push_state(*args):
         if len(albumart) == 0:  # to catch a empty field on start
             albumart = 'http://'+servername+':3000/albumart'
         # Make the album art link into a url & get it & paste it in
-        albumart = 'http://'+servername+':3000'+args[0]['albumart']
+        if b'http://' in albumart:
+            pass
+        else:
+            albumart = 'http://'+servername+':3000'+args[0]['albumart']
         try:
             response = requests.get(albumart)
             imgart = Image.open(BytesIO(response.content))
@@ -141,16 +144,19 @@ def on_push_state(*args):
         height = 50
         fontsize = 50
         width = 40
-        if 'album' in args[0]:
+        if 'album' in args[0] and args[0]['album'] is not None:
             titletext= smart_truncate(args[0]['album'], length=27)
             img, numline=writewrappedlines(img,args[0]['album'],fontsize,y_text,height, width,fontstring)
         
         if 'stream' in args[0]:
-            techstring = "("+str(args[0]['stream'])
+            if str(args[0]['stream']) is 'True':
+                techstring = "("+str(args[0]['bitrate'])
+            else:
+                techstring = "("+str(args[0]['stream'])
             techflag = True
-        if 'samplerate' in args[0]:
+        if 'samplerate' in args[0] and args[0]['samplerate']!='':
             techstring += ", "+str(args[0]['samplerate'])
-        if 'bitdepth' in args[0]:
+        if 'bitdepth' in args[0] and args[0]['bitdepth']!='':
             techstring += ", "+str(args[0]['bitdepth'])
         if techflag:
             y_text = 210
@@ -160,7 +166,7 @@ def on_push_state(*args):
         fontsize = 120
         height = 120
         width = 20
-        if 'title' in args[0]:
+        if 'title' in args[0] and args[0]['title'] is not None:
             titletext= smart_truncate(args[0]['title'],length=30)
             img, numline=writewrappedlines(img,titletext,fontsize,y_text,height, width,fontstring)
 
