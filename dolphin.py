@@ -124,11 +124,11 @@ def on_push_state(*args):
         try:
             response = requests.get(albumart)
             imgart = Image.open(BytesIO(response.content))
-            imgart = imgart.resize((coversize, coversize))
             imgart = imgart.convert("RGBA")
+            imgart = imgart.resize((coversize, coversize))
         except:
             imgart = Image.new('RGBA', (coversize, coversize), color=(255, 255, 255,0))
-        img.paste(imgart, (int((display.width - coversize)/2),220))
+        img.paste(imgart, (int((display.width - coversize)/2),220),imgart)
 
         if args[0]['status'] in ['pause', 'stop'] :
             img.paste(pause_icons, (indent, 300), pause_icons)
