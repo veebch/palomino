@@ -105,8 +105,10 @@ def on_push_state(*args):
     print(args[0])
     wasmuted = bool(lastpass['volume']<mutethresh)
     ismuted = bool(args[0]['volume']<mutethresh)
+    wasplaying = bool(lastpass['status'] =='play')
+    isplaying = bool(args[0]['status'] =='play')
     techstring = False
-    if  ((args[0]['title']!=lastpass['title'] or (args[0]['status']!=lastpass['status'])) and args[0]['status']!='stop') or \
+    if  ((args[0]['title']!=lastpass['title'] or (wasplaying!=isplaying)) and args[0]['status']!='stop') or \
         wasmuted!=ismuted:
         lastpass = args[0]
         img = Image.new('RGBA', (display.width, display.height), color=(255, 255 , 255, 0))
@@ -114,12 +116,12 @@ def on_push_state(*args):
         # Load cover
         albumart = args[0]['albumart'].encode('ascii', 'ignore')
 
-        if len(albumart) == 0:  # to catch a empty field on start
-            albumart = 'http://'+servername+':3000/albumart'
         # Make the album art link into a url & get it & paste it in
         if b'http://' in albumart:
+            # It's already a url, which means radio, no need to do anything
             pass
         else:
+            # Otherwise turn it into a url
             albumart = 'http://'+servername+':3000'+args[0]['albumart']
         try:
             response = requests.get(albumart)
@@ -127,10 +129,12 @@ def on_push_state(*args):
             imgart = imgart.convert("RGBA")
             imgart = imgart.resize((coversize, coversize))
         except:
+            # If there are issues getting the icon, just use a blank space
             imgart = Image.new('RGBA', (coversize, coversize), color=(255, 255, 255,0))
+        
         img.paste(imgart, (int((display.width - coversize)/2),220),imgart)
 
-        if args[0]['status'] in ['pause', 'stop'] :
+        if args[0]['status'] in ['pause','stop'] :
             img.paste(pause_icons, (indent, 300), pause_icons)
 
         draw = ImageDraw.Draw(img, 'RGBA')
