@@ -14,7 +14,7 @@ Track Viewer:
 - Pi Zero WH
 - E Paper Display (a waveshare 6" HD screen)
 
-The viewer in the video is running on one [of these](https://www.veeb.ch/store/p/tickerxl), which is a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
+The viewer in the YouTube video is running on one [of these](https://www.veeb.ch/store/p/tickerxl), which is a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
 
 ## Prerequisites
 - A Working Volumio server on your LAN
