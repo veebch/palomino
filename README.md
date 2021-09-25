@@ -18,7 +18,7 @@ The viewer in the YouTube video is running on one [of these](https://www.veeb.ch
 
 ## Prerequisites
 - A Working Volumio server on your LAN
-- A Pi Zero running Raspbian, with waveshare 6inch HD ePaper attached
+- A Pi Zero running Raspbian, with a Waveshare 6inch HD ePaper attached
 - The Python module for [IT8951](https://github.com/GregDMeyer/IT8951) installed on the Pi Zero
 
 ## Installation 
