@@ -4,8 +4,14 @@
 The code for an easy-on-the-eye, kind-to-the-ear music player display - all the heavy lifting is done by Volumio.
 
 ## Hardware
-Volumio is running on a Pi4 on the same LAN as the viewer.
-The viewer is running one [of these](https://www.veeb.ch/store/p/tickerxl), which is essentially a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
+Volumio server:
+- Pi 4 and speakers with built in DAC OR
+- Pi 4 and DAC (Hifiberry, IQAudio etc)
+Track Viewer:
+- Pi Zero WH
+- E Paper Display (The unit it in the video uses a waveshare 6" HD screen)
+
+The viewer in the video is running on one [of these](https://www.veeb.ch/store/p/tickerxl), which is essentially a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
 
 ## Prerequisites
 
