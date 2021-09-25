@@ -26,8 +26,8 @@ The viewer in the YouTube video is running on one [of these](https://www.veeb.ch
 All of this takes place on the Pi-Zero. From your home directory, clone the repository 
 
 ```
-git clone git@github.com:llvllch/dolphin.git
-cd dolphin
+git clone git@github.com:llvllch/palamino.git
+cd palamino
 ```
 
 then install the required modules using `python3 -m pip install -r requirements.txt` then 
@@ -37,7 +37,7 @@ cp config_example.yaml config.yaml
 ```
 Then you can run using
 ```
-python3 dolphin.py
+python3 palamino.py
 ```
 
 ## Add Autostart
@@ -45,14 +45,14 @@ python3 dolphin.py
 You can use systemd to start the code as a service on boot.
 
 ```
-cat <<EOF | sudo tee /etc/systemd/system/dolphin.service
+cat <<EOF | sudo tee /etc/systemd/system/palamino.service
 [Unit]
-Description=dolphin
+Description=palamino
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 -u /home/pi/dolphin/dolphin.py
-WorkingDirectory=/home/pi/dolphin/
+ExecStart=/usr/bin/python3 -u /home/pi/palamino/palamino.py
+WorkingDirectory=/home/pi/palamino/
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
@@ -64,8 +64,8 @@ EOF
 ```
 Now, simply enable the service you just made and reboot
 ```  
-sudo systemctl enable dolphin.service
-sudo systemctl start dolphin.service
+sudo systemctl enable palamino.service
+sudo systemctl start palamino.service
 
 sudo reboot
 ```
