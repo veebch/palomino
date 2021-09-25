@@ -1,16 +1,25 @@
+![Action Shot](/images/Dolphin.jpg)
+
 [![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCz5BOU9J9pB_O0B8-rDjCWQ?label=YouTube&style=social)](https://www.youtube.com/channel/UCz5BOU9J9pB_O0B8-rDjCWQ)
 
-# Dolphin
-The code for an easy-on-the-eye, kind-to-the-ear music player display - all the heavy lifting is done by Volumio.
+# Dolphin: An HD ePaper track viewer For Volumio
+Code for an easy-on-the-eye ePaper music player display that talks to a kind-to-the-ear bit-perfect music player. All of the musical heavy lifting is done by [Volumio](https://github.com/volumio/Volumio2). The code sets up a socket connection, listens for changes and updates the display when needed. The code is currently reflecting what is going on on the server, adding control via the api is very straightforward.
 
 ## Hardware
-Volumio is running on a Pi4 on the same LAN as the viewer.
-The viewer is running one [of these](https://www.veeb.ch/store/p/tickerxl), which is essentially a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
+Volumio server:
+- Pi 4 and speakers with built in DAC **or**
+- Pi 4 and DAC (Hifiberry, IQAudio etc) and Sound System
+
+Track Viewer:
+- Pi Zero WH
+- E Paper Display (a waveshare 6" HD screen)
+
+The viewer in the video is running on one [of these](https://www.veeb.ch/store/p/tickerxl), which is a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
 
 ## Prerequisites
-
-- A working Pi with waveshare 6inch HD ePaper attached
-- The Python module for [IT8951](https://github.com/GregDMeyer/IT8951) installed
+- A Working Volumio server on your LAN
+- A Pi Zero running Raspbian, with waveshare 6inch HD ePaper attached
+- The Python module for [IT8951](https://github.com/GregDMeyer/IT8951) installed on the Pi Zero
 
 ## Installation 
 
@@ -32,6 +41,8 @@ python3 dolphin.py
 ```
 
 ## Add Autostart
+
+You can use systemd to start the code as a service on boot.
 
 ```
 cat <<EOF | sudo tee /etc/systemd/system/dolphin.service
