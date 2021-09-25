@@ -5,8 +5,8 @@ Code for an easy-on-the-eye ePaper music player display that talks to a kind-to-
 
 ## Hardware
 Volumio server:
-- Pi 4 and speakers with built in DAC **OR**
-- Pi 4 and DAC (Hifiberry, IQAudio etc)
+- Pi 4 and speakers with built in DAC **or**
+- Pi 4 and DAC (Hifiberry, IQAudio etc) and Sound System
 
 Track Viewer:
 - Pi Zero WH
