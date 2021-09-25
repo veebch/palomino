@@ -2,7 +2,7 @@
 
 [![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCz5BOU9J9pB_O0B8-rDjCWQ?label=YouTube&style=social)](https://www.youtube.com/channel/UCz5BOU9J9pB_O0B8-rDjCWQ)
 
-# Palamino: A high definition ePaper track viewer For Volumio
+# Palamino: A high definition ePaper 'Now Playing' viewer For Volumio
 Code for an easy-on-the-eye ePaper display that talks to a kind-to-the-ear, bit-perfect music player. All of the musical heavy lifting is done by [Volumio](https://github.com/volumio/Volumio2). The code sets up a socket connection, listens for changes and updates the display when needed. The code is currently reflecting what is going on on the server, but adding control via the api is very straightforward.
 
 ## Hardware
