@@ -6,13 +6,13 @@
 Code for an easy-on-the-eye ePaper display that talks to a kind-to-the-ear, bit-perfect music player. All of the musical heavy lifting is done by [Volumio](https://github.com/volumio/Volumio2). The code sets up a socket connection, listens for changes and updates the display when needed. The code currently reflects what is going on on the server, but adding server control via the [api](https://volumio.github.io/docs/API/REST_API.html) is very straightforward.
 
 ## Hardware
-Volumio server:
-This is covered in detail elsewhere, but the tl;dr is
+**Volumio server**:
+This is covered in detail elsewhere, but the **tl;dr** is
 
 - Pi 4 and speakers with built in DAC (eg KEF LS50) **or**
 - Pi 4 and DAC (Hifiberry, IQAudio etc) and Sound System
 
-Track Viewer:
+**Track Viewer**:
 - Pi Zero WH
 - E Paper Display (a Waveshare 6" HD screen)
 
