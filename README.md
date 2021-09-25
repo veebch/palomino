@@ -23,7 +23,7 @@ The viewer in the video is running on one [of these](https://www.veeb.ch/store/p
 
 ## Installation 
 
-From your home directory, clone the repository 
+All of this takes place on the Pi-Zero. From your home directory, clone the repository 
 
 ```
 git clone git@github.com:llvllch/dolphin.git
