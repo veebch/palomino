@@ -35,7 +35,7 @@ move to the directory and copy the example config file and tailor to your needs:
 ```
 cp config_example.yaml config.yaml
 ```
-You can then edit this file to set the name of your server.
+You can then edit `config.yaml` file to set the name of your server.
 Then you can run the code using the command:
 ```
 python3 palamino.py
