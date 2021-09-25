@@ -7,7 +7,7 @@ Code for an easy-on-the-eye ePaper display that talks to a kind-to-the-ear, bit-
 
 ## Hardware
 Volumio server:
-- Pi 4 and speakers with built in DAC **or**
+- Pi 4 and speakers with built in DAC (eg KEF LS50) **or**
 - Pi 4 and DAC (Hifiberry, IQAudio etc) and Sound System
 
 Track Viewer:
