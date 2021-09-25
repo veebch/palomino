@@ -66,7 +66,7 @@ User=pi
 WantedBy=multi-user.target
 EOF
 ```
-Now, simply enable the service you just made and reboot
+Now, simply enable the service you just made and reboot...
 ```  
 sudo systemctl enable palamino.service
 sudo systemctl start palamino.service
