@@ -40,6 +40,8 @@ python3 dolphin.py
 
 ## Add Autostart
 
+You can use systemd to start the code as a service on boot.
+
 ```
 cat <<EOF | sudo tee /etc/systemd/system/dolphin.service
 [Unit]
