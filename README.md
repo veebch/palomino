@@ -7,6 +7,7 @@ The code for an easy-on-the-eye, kind-to-the-ear music player display - all the 
 Volumio server:
 - Pi 4 and speakers with built in DAC OR
 - Pi 4 and DAC (Hifiberry, IQAudio etc)
+
 Track Viewer:
 - Pi Zero WH
 - E Paper Display (The unit it in the video uses a waveshare 6" HD screen)
