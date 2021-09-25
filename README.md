@@ -5,7 +5,7 @@ The code for an easy-on-the-eye, kind-to-the-ear music player display - all the 
 
 ## Hardware
 Volumio server:
-- Pi 4 and speakers with built in DAC OR
+- Pi 4 and speakers with built in DAC **OR**
 - Pi 4 and DAC (Hifiberry, IQAudio etc)
 
 Track Viewer:
