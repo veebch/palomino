@@ -46,7 +46,7 @@ After a few seconds, the screen will show the track currently playing on you Vol
 
 ## Add Autostart
 
-You can use systemd to start the code as a service on boot.
+Once you've got a working instance of the code, you will probably want it to start automatically every time you power up. You can use systemd to start the code as a service on boot.
 
 ```
 cat <<EOF | sudo tee /etc/systemd/system/palamino.service
