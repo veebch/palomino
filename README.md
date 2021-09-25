@@ -40,7 +40,7 @@ Once that's done, you can run the code using the command:
 ```
 python3 palamino.py
 ```
-After a few seconds, the screen will show the trach currently playing on you Volumio server.
+After a few seconds, the screen will show the track currently playing on you Volumio server.
 
 ## Add Autostart
 
