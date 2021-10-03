@@ -5,4 +5,4 @@ display:
   indent: 180
   font: MavenPro-Regular
 server:
-  name: boombox.local
+  name: volumio.local
