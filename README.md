@@ -25,7 +25,9 @@ The viewer in the YouTube video is running on one [of these](https://www.veeb.ch
 
 ## Installation 
 
-All of this takes place on the Pi-Zero. From your home directory, clone the repository 
+All of this takes place on the Pi-Zeroi - **not on the volumio server** . 
+
+From your home directory, clone the repository 
 
 ```
 git clone git@github.com:llvllch/palamino.git
