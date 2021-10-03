@@ -25,7 +25,7 @@ The viewer in the YouTube video is running on one [of these](https://www.veeb.ch
 
 ## Installation 
 
-All of this takes place on the Pi-Zeroi - **not on the volumio server** . 
+All of this takes place on the Pi-Zero - **not on the volumio server** . 
 
 From your home directory, clone the repository 
 
