@@ -2,7 +2,7 @@
 
 [![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCz5BOU9J9pB_O0B8-rDjCWQ?label=YouTube&style=social)](https://www.youtube.com/channel/UCz5BOU9J9pB_O0B8-rDjCWQ)
 
-# Palamino: A high definition ePaper 'Now Playing' viewer For Volumio
+# Palomino: A high definition ePaper 'Now Playing' viewer For Volumio
 Code for an easy-on-the-eye ePaper display that talks to a kind-to-the-ear, bit-perfect music player. All of the musical heavy lifting is done by [Volumio](https://github.com/volumio/Volumio2). The code sets up a socket connection, listens for changes and updates the display when needed. The code currently reflects what is going on on the server, but adding server control via the [api](https://volumio.github.io/docs/API/REST_API.html) is very straightforward.
 
 ## Hardware
@@ -53,12 +53,12 @@ Once you've got a working instance of the code, you will probably want it to sta
 ```
 cat <<EOF | sudo tee /etc/systemd/system/palamino.service
 [Unit]
-Description=palamino
+Description=palomino
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 -u /home/pi/palamino/palamino.py
-WorkingDirectory=/home/pi/palamino/
+ExecStart=/usr/bin/python3 -u /home/pi/palamino/palomino.py
+WorkingDirectory=/home/pi/palomino/
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
