@@ -42,7 +42,7 @@ cp config_example.yaml config.yaml
 You can then edit `config.yaml` file to set the name of your server.
 Once that's done, you can run the code using the command:
 ```
-python3 palamino.py
+python3 palomino.py
 ```
 After a few seconds, the screen will show the track currently playing on you Volumio server.
 
