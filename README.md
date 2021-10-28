@@ -30,8 +30,8 @@ All of this takes place on the Pi-Zero - **not on the volumio server** .
 From your home directory, clone the repository 
 
 ```
-git clone git@github.com:llvllch/palamino.git
-cd palamino
+git clone git@github.com:llvllch/palomino.git
+cd palomino
 ```
 
 then install the required modules using `python3 -m pip install -r requirements.txt` then 
@@ -51,7 +51,7 @@ After a few seconds, the screen will show the track currently playing on you Vol
 Once you've got a working instance of the code, you will probably want it to start automatically every time you power up. You can use systemd to start the code as a service on boot.
 
 ```
-cat <<EOF | sudo tee /etc/systemd/system/palamino.service
+cat <<EOF | sudo tee /etc/systemd/system/palomino.service
 [Unit]
 Description=palomino
 After=network.target
@@ -70,8 +70,8 @@ EOF
 ```
 Now, simply enable the service you just made and reboot...
 ```  
-sudo systemctl enable palamino.service
-sudo systemctl start palamino.service
+sudo systemctl enable palomino.service
+sudo systemctl start palomino.service
 
 sudo reboot
 ```
