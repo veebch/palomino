@@ -266,7 +266,7 @@ if __name__ == '__main__':
             main()
         except KeyboardInterrupt:
             socketIO.disconnect()
-            img = Image.new('RGBA', (1448, 1072), color=(255, 255, 255,0))
+            img = Image.new('RGBA', (1448, 1072), color=(0, 0, 0,0))
             img.paste(rabbit_icon,(100,760), rabbit_icon)
             display_image_8bpp(display,img)
             pass
