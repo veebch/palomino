@@ -57,7 +57,7 @@ Description=palomino
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 -u /home/pi/palamino/palomino.py
+ExecStart=/usr/bin/python3 -u /home/pi/palomino/palomino.py
 WorkingDirectory=/home/pi/palomino/
 StandardOutput=inherit
 StandardError=inherit
