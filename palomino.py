@@ -93,7 +93,6 @@ def display_image_8bpp(display, img):
     img=img.rotate(180, expand=True)
     display.frame_buf.paste(img, paste_coords)
     display.draw_full(constants.DisplayModes.GC16)
-    display.sleep()
     return
 
 def on_push_state(*args):
