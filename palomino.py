@@ -87,10 +87,19 @@ def on_connect():
     return 'connected'
 
 def display_image_8bpp(display, img):
+    global config
     dims = (display.width, display.height)
     img.thumbnail(dims)
     paste_coords = [dims[i] - img.size[i] for i in (0,1)]  # align image with bottom of display
+    # If the config file contains offset coordinates that are nonzero, shift the image by those coordinates 
+    # (relative to origin at the bottom left of the screen)
+    if 'xshift' in config['display'] and int(config['display']['xshift'])!=0:
+        paste_coords[0]=paste_coords[0]-int(config['display']['xshift'])
+    if 'yshift' in config['display'] and int(config['display']['yshift'])!=0:
+        paste_coords[1]=paste_coords[1]+int(config['display']['yshift'])
     img=img.rotate(180, expand=True)
+    if config['display']['inverted']==True:
+        img = ImageOps.invert(img)
     display.frame_buf.paste(img, paste_coords)
     display.draw_full(constants.DisplayModes.GC16)
     return
@@ -266,7 +275,7 @@ if __name__ == '__main__':
             main()
         except KeyboardInterrupt:
             socketIO.disconnect()
-            img = Image.new('RGBA', (1448, 1072), color=(0, 0, 0,0))
-            #img.paste(rabbit_icon,(100,760), rabbit_icon)
+            img = Image.new('RGBA', (1448, 1072), color=(255,255,255,0))
+            img.paste(rabbit_icon,(100,760), rabbit_icon)
             display_image_8bpp(display,img)
             pass
