@@ -88,6 +88,7 @@ def on_connect():
 
 def display_image_8bpp(display, img):
     global config
+    clear_display(display)
     dims = (display.width, display.height)
     img.thumbnail(dims)
     paste_coords = [dims[i] - img.size[i] for i in (0,1)]  # align image with bottom of display
