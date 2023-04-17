@@ -13,7 +13,7 @@ Code for an easy-on-the-eye ePaper display that talks to a kind-to-the-ear, bit-
 - Raspberry Pi Zero WH
 - E Paper Display (a Waveshare 6" HD screen)
 
-The viewer in the [YouTube video](https://youtu.be/7x2k6CjCG04) is running a [weeb epaper display](https://www.veeb.ch/store/p/tickerxl), which is a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
+The viewer in the [YouTube video](https://youtu.be/7x2k6CjCG04) is running a [veeb epaper display](https://www.veeb.ch/notes/a-musical-interlude), which is a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
 
 For any of this to work, you'll have to be using a Volumio Server. 
 
