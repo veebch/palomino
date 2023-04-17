@@ -8,17 +8,20 @@
 Code for an easy-on-the-eye ePaper display that talks to a kind-to-the-ear, bit-perfect music player. All of the musical heavy lifting is done by [Volumio](https://github.com/volumio/Volumio2). The code sets up a socket connection, listens for changes and updates the display when needed. The code currently reflects what is going on on the server, but adding server control via the [api](https://volumio.github.io/docs/API/REST_API.html) is very straightforward.
 
 ## Hardware
-**Volumio server**:
-This is covered in detail elsewhere, but the **tl;dr** is
 
-- Pi 4 and speakers with built in DAC (eg KEF LS50) **or**
-- Pi 4 and DAC (Hifiberry, IQAudio etc) and Sound System
-
-**Track Viewer**:
-- Pi Zero WH
+**Palomino Track Viewer**:
+- Raspberry Pi Zero WH
 - E Paper Display (a Waveshare 6" HD screen)
 
 The viewer in the [YouTube video](https://youtu.be/7x2k6CjCG04) is running on one [of these](https://www.veeb.ch/store/p/tickerxl), which is a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
+
+For any of this to work, you'll have to be using a Volumio Server. 
+
+**Volumio server**:
+Hardware for this is covered [in detail elsewhere](https://volumio.com/en/), but the **tl;dr** is
+
+- Raspberry Pi 4 
+- Speakers with built in DAC (eg KEF LS50) **or** DAC (Hifiberry, IQAudio etc) and Sound System
 
 ## Prerequisites
 - A Working Volumio server on your LAN
