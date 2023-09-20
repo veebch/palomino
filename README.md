@@ -51,9 +51,6 @@ python3 palomino.py
 ```
 After a few seconds, the screen will show the track currently playing on you Volumio server.
 
-## Video
-
-Click/Tap the image at the top of this readme.
 
 ## Add Autostart
 
@@ -84,6 +81,12 @@ sudo systemctl start palomino.service
 
 sudo reboot
 ```
+
+## Video
+
+Click/Tap the image at the top of this readme.
+
+
 ## Licence
 
 GNU GENERAL PUBLIC LICENSE Version 3.0
