@@ -51,6 +51,10 @@ python3 palomino.py
 ```
 After a few seconds, the screen will show the track currently playing on you Volumio server.
 
+## Video
+
+Click/Tap the image at the top of this readme.
+
 ## Add Autostart
 
 Once you've got a working instance of the code, you will probably want it to start automatically every time you power up. You can use systemd to start the code as a service on boot.
