@@ -7,13 +7,17 @@
 # Palomino: A high definition ePaper 'Now Playing' viewer For Volumio
 Code for an easy-on-the-eye ePaper display that talks to a kind-to-the-ear, bit-perfect music player. All of the musical heavy lifting is done by [Volumio](https://github.com/volumio/Volumio2). The code sets up a socket connection, listens for changes and updates the display when needed. 
 
+## Video
+
+The viewer in the [video](https://youtu.be/7x2k6CjCG04) is running a [veeb epaper display](https://www.veeb.ch/notes/a-musical-interlude), which is a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
+
+[![Video](images/video.png)](https://www.youtube.com/watch?v=7x2k6CjCG04)
+
 ## Hardware
 
 **Palomino Track Viewer**:
 - Raspberry Pi Zero WH
 - E Paper Display (a Waveshare 6" HD screen)
-
-The viewer in the [YouTube video](https://youtu.be/7x2k6CjCG04) is running a [veeb epaper display](https://www.veeb.ch/notes/a-musical-interlude), which is a Raspberry Pi Zero WH and a High Definition E-Paper Display in a custom frame.
 
 For any of this to work, you'll have to be using a Volumio Server. 
 
@@ -50,7 +54,6 @@ Once that's done, you can run the code using the command:
 python3 palomino.py
 ```
 After a few seconds, the screen will show the track currently playing on you Volumio server.
-
 
 ## Add Autostart
 
