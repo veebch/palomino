@@ -85,10 +85,6 @@ sudo systemctl start palomino.service
 sudo reboot
 ```
 
-## Video
-
-Click/Tap the image at the top of this readme.
-
 
 ## Licence
 
